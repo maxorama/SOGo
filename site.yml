@@ -50,6 +50,7 @@
   gather_facts: no
 
   roles:
+   - remove_tmp
    - post_setup
 #   - lets-encrypt
    - reboot
