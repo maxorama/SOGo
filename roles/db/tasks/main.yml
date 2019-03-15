@@ -1,0 +1,50 @@
+---
+# This playbook will install MariaDB and create db user and give permissions.
+
+- name: Install MariaDB package
+  yum: name={{ item }} state=installed
+  with_items:
+   - mariadb
+   - mariadb-libs
+   - mariadb-server
+   - mariadb-devel
+   - MySQL-python
+
+- name: Configure SELinux to start mysql on any port
+  seboolean: name=mysql_connect_any state=true persistent=yes
+
+- name: Create Mysql configuration file
+  template: src=my.cnf.j2 dest=/etc/my.cnf
+
+- name: Create MariaDB log file
+  file: path=/var/log/mysqld.log state=touch owner=mysql group=mysql mode=0775
+
+- name: Fixing permissions on mysqld file
+  command: 'chcon system_u:object_r:mysqld_log_t:s0 /var/log/mysqld.log'
+
+- name: Create MariaDB PID directory
+  file: path=/var/run/mariadb state=directory owner=mysql group=mysql mode=0775
+
+- name: Start MariaDB Service
+  service: name=mariadb state=started enabled=yes
+
+- name: Insert firewalld rule
+  firewalld: port={{ mysql_port }}/tcp permanent=true state=enabled immediate=yes
+  ignore_errors: true
+
+- name: Create Root DB User...
+  mysql_user: name={{ dbuser }} password={{ upassword }} priv=*.*:ALL host='%' state=present
+  ignore_errors: true
+
+- name: Creating SOGo Application Database...
+  mysql_db: name={{ sogo_db }} state=present
+  ignore_errors: true
+
+- name: Creating SOGo Application DB User...
+  mysql_user: name={{ sogo_user }} password={{ sogo_pass }} priv='{{ sogo_db }}.*:ALL,GRANT' host='localhost' state=present
+  ignore_errors: true
+
+- name: Remove the test database...
+  mysql_db: name=test state=absent
+  ignore_errors: true
+

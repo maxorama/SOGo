@@ -1,0 +1,16 @@
+---
+# Download and install EPEL for Centos/RHEL version 7
+
+- name: Install NTP server
+  yum: name=chrony state=present
+  tags: chrony
+
+- name: Configure ntp file
+  template: src=chrony.conf.j2 dest=/etc/chrony.conf
+  tags: chrony
+  notify: restart chrony
+
+- name: Start the chrony service
+  service: name=chrony state=started enabled=yes
+  tags: chrony
+

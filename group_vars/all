@@ -1,0 +1,23 @@
+---
+# Variables listed here are applicable to all host groups
+
+domain: { global: "domain.ru", local: "domain.local" }
+httpd_port: 80
+ntpserver: 192.168.10.1
+allow_network: 192.168.10.0/24
+host_ip: 192.168.10.30
+hostname: sogo
+
+sogo_ver: 4.0.1
+sogo_title: "<<Title>>"
+mail_srv: <<mail_srv>>
+mail_web_srv: <<web_mail_srv>>
+imap_srv: "imaps://{{ mail_srv }}:993/?ssl=yes"
+sieve_srv: "sieve://{{ mail_srv }}:4190/?tls=yes"
+
+base_dc: domain.local
+base_url: dc=domain,dc=local
+base_dn: ou=Users,dc=domain,dc=local
+bind_dn: cn=admin,cn=Users,dc=domain,dc=local
+bind_pass: <<bind_pass>>
+

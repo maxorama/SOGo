@@ -1,0 +1,32 @@
+---
+
+- name: Installing Apache...
+  yum: name=httpd state=present
+  ignore_errors: False
+
+- name: Installing Apache SSL...
+  yum: name=mod_ssl state=present
+  ignore_errors: False
+
+- name: Installing Apache fcgid...
+  yum: name=mod_fcgid state=present
+  ignore_errors: False
+
+- name: Coping HTTP configuration files...
+  template: src={{ item }} dest=/etc/httpd/conf.d/{{ item | basename | regex_replace('\.j2','') }} force=yes
+  with_items:
+   - http.conf.j2
+
+- name: Adding configuration to HTTPs configuration files...
+  lineinfile:
+    dest: /etc/httpd/conf.d/ssl.conf
+    line: "{{ http_ssl_conf }}"
+    insertbefore: '\<\/VirtualHost\>'
+    state: present
+
+- name: Regexp HTTP config...
+  replace:
+   path: /etc/httpd/conf/httpd.conf
+   regexp: "AllowOverride None"
+   replace: "AllowOverride All"
+

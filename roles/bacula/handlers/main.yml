@@ -1,0 +1,5 @@
+---
+# Handler to handle DB tier notifications
+
+- name: restart bacula
+  service: name=bacula-fd state=restarted

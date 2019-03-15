@@ -1,0 +1,42 @@
+---
+
+- name: Installing SOGo dependencies...
+  yum: name="{{ item }}" state=present
+  with_items:
+   - dwz
+   - elfutils
+   - gdb
+   - patch
+   - perl-Thread-Queue
+   - perl-srpm-macros
+   - redhat-rpm-config
+   - rpm-build
+   - gnustep-filesystem
+   - gnustep-make
+   - gnustep-base
+   - gnustep-base-devel
+   - xz-devel
+   - libxml2-devel
+   - openldap-devel
+   - libgomp
+   - libgcc
+   - cpp
+   - gcc
+   - libstdc++
+   - libstdc++-devel
+   - libobjc
+   - gcc-objc
+   - gcc-c++
+   - gcc-objc++
+   - postgresql
+   - postgresql-devel
+   - postgresql-libs
+   - lasso-devel
+   - memcached
+   - libmemcached
+   - libmemcached-devel
+   - libcurl-devel
+   - expat
+   - expat-devel
+  register: result
+  ignore_errors: true

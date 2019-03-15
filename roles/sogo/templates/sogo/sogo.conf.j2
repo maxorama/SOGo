@@ -1,0 +1,181 @@
+{
+  /* *********************  Main SOGo configuration file  **********************
+   *                                                                           *
+   * Since the content of this file is a dictionary in OpenStep plist format,  *
+   * the curly braces enclosing the body of the configuration are mandatory.   *
+   * See the Installation Guide for details on the format.                     *
+   *                                                                           *
+   * C and C++ style comments are supported.                                   *
+   *                                                                           *
+   * This example configuration contains only a subset of all available        *
+   * configuration parameters. Please see the installation guide more details. *
+   *                                                                           *
+   * ~sogo/GNUstep/Defaults/.GNUstepDefaults has precedence over this file,    *
+   * make sure to move it away to avoid unwanted parameter overrides.          *
+   *                                                                           *
+   * **************************************************************************/
+
+  /* Database configuration (mysql:// or postgresql://) */
+  SOGoProfileURL="mysql://{{ sogo_user }}:{{ sogo_pass }}@localhost:3306/{{ sogo_db }}/sogo_user_profile";
+  OCSFolderInfoURL="mysql://{{ sogo_user }}:{{ sogo_pass }}@localhost:3306/{{ sogo_db }}/sogo_folder_info";
+  OCSEMailAlarmsFolderURL="mysql://{{ sogo_user }}:{{ sogo_pass }}@localhost:3306/{{ sogo_db }}/sogo_alarm_folder";
+  OCSSessionsFolderURL="mysql://{{ sogo_user }}:{{ sogo_pass }}@localhost:3306/{{ sogo_db }}/sogo_sessions_folder";
+  OCSStoreURL="mysql://{{ sogo_user }}:{{ sogo_pass }}@localhost:3306/{{ sogo_db }}/sogo_store";
+  OCSAclURL="mysql://{{ sogo_user }}:{{ sogo_pass }}@localhost:3306/{{ sogo_db }}/sogo_acl";
+  OCSCacheFolderURL="mysql://{{ sogo_user }}:{{ sogo_pass }}@localhost:3306/{{ sogo_db }}/sogo_cache_folder";
+
+  SOGoMaximumPingInterval = 3540;
+  SOGoMaximumSyncInterval = 3540;
+  SOGoInternalSyncInterval = 30;
+  WOWatchDogRequestTimeout = 50;
+  SOGoMaximumSyncWindowSize = 100;
+  SOGoMaximumSyncResponseSize = 4096;
+  WOWorkersCount = 15;
+
+  MySQL4Encoding = "utf8mb4";
+
+  /* Mail */
+  SOGoDraftsFolderName = Draft;
+  SOGoSentFolderName = Sent;
+  SOGoTrashFolderName = Trash;
+  SOGoIMAPServer = "{{ imap_srv }}";
+  SOGoSMTPServer = "{{ mail_srv }}";
+  SOGoMailDomain = "{{ domain.global }}";
+  SOGoMailingMechanism = smtp;
+  SOGoForceExternalLoginWithEmail = NO;
+  //SOGoMailSpoolPath = /var/spool/sogo;
+  //NGImap4ConnectionStringSeparator = "/";
+
+  /* Notifications */
+  SOGoAppointmentSendEMailNotifications = YES;
+  //SOGoACLsSendEMailNotifications = NO;
+  //SOGoFoldersSendEMailNotifications = NO;
+
+  /* Authentication */
+  SOGoPasswordChangeEnabled = YES;
+
+  /* LDAP AD/Samba4 example */
+  SOGoUserSources = (
+    {
+      type = ldap;
+      CNFieldName = cn;
+      UIDFieldName = sAMAccountName;
+      baseDN = "{{ base_url }}";
+      bindDN = "{{ bind_dn }}";
+      bindFields = (sAMAccountName,mail);
+      bindPassword = "{{ bind_pass }}";
+      canAuthenticate = YES;
+      passwordPolicy = YES;
+      displayName = "Public";
+      hostname = ldap://{{ base_dc }}:389;
+      filter = "mail = \'*\'";
+      id = directory;
+      isAddressBook = NO;
+    },
+    {
+        id = ldap_auth;
+        displayName = "Global Address Book";
+        canAuthenticate = NO;
+        isAddressBook = YES;
+        type = ldap;
+        CNFieldName = cn;
+        IDFieldName = mail;
+        UIDFieldName = mail;
+        hostname = "ldap://{{ base_dc }}:389";
+        baseDN = "{{ base_dn }}";
+        bindDN = "{{ bind_dn }}";
+        bindPassword = "{{ bind_pass }}";
+	listRequiresDot = NO;
+        //SearchFieldNames = (cn, sn, displayName, telephoneNumber, mail, shadowAddress, o, ou);
+	mapping = {
+		o = ("company");
+        	ou = ("department");
+    	};
+
+	SearchFieldNames = (
+		sn,
+		displayName,
+		telephoneNumber,
+		mobile,
+		facsimileTelephoneNumber,
+		homePhone,
+		pager,
+		ipPhone,
+		wWWHomePage,
+		title,
+		streetAddress,
+		st,
+		postOfficeBox,
+		postalCode,
+		physicalDeliveryOfficeName,
+		description,
+		countryCode,
+		co,
+		department,
+		company
+    	);
+
+	//filter = "((NOT isCriticalSystemObject='TRUE') AND (mail=\'*\') AND (NOT objectClass=contact))";
+   }
+  );
+
+
+  /* SQL authentication example */
+  /*  These database columns MUST be present in the view/table:
+   *    c_uid - will be used for authentication -  it's the username or username@domain.tld)
+   *    c_name - which can be identical to c_uid -  will be used to uniquely identify entries
+   *    c_password - password of the user, plain-text, md5 or sha encoded for now
+   *    c_cn - the user's common name - such as "John Doe"
+   *    mail - the user's mail address
+   *  See the installation guide for more details
+   */
+  //SOGoUserSources =
+  //  (
+  //    {
+  //      type = sql;
+  //      id = directory;
+  //      viewURL = "postgresql://sogo:sogo@127.0.0.1:5432/sogo/sogo_view";
+  //      canAuthenticate = YES;
+  //      isAddressBook = YES;
+  //      userPasswordAlgorithm = md5;
+  //    }
+  //  );
+
+  /* Web Interface */
+  SOGoPageTitle = "{{ sogo_title }}";
+  SOGoEnableEMailAlarms = YES;
+  SOGoMailAuxiliaryUserAccountsEnabled = YES;
+  //SOGoTrustProxyAuthentication = NO;
+
+  /* Sieve */
+  SOGoSieveServer = "{{ sieve_srv }}";
+  SOGoVacationEnabled = YES;
+  SOGoForwardEnabled = YES;
+  SOGoSieveScriptsEnabled = YES;
+  SOGoSieveFolderEncoding = UTF-8;
+
+  /* General */
+  SOGoLanguage = Russian;
+  SOGoTimeZone = Europe/Moscow;
+  SOGoCalendarDefaultRoles = (
+    PublicDAndTViewer,
+    ConfidentialDAndTViewer
+  );
+  SOGoSuperUsernames = (root); // This is an array - keep the parens!
+  SxVMemLimit = 4096;
+  WOPidFile = "/var/run/sogo/sogo.pid";
+  WOPort = 127.0.0.1:20000;
+  SOGoMemcachedHost = 127.0.0.1;
+  SOGoRefreshViewCheck = every_5_minutes; 
+ 
+  /* Debug */
+  SOGoDebugRequests = NO;
+  SoDebugBaseURL = NO;
+  ImapDebugEnabled = NO;
+  LDAPDebugEnabled = NO;
+  PGDebugEnabled = NO;
+  MySQL4DebugEnabled = NO;
+  SOGoUIxDebugEnabled = NO;
+  WODontZipResponse = NO;
+  WOLogFile = /var/log/sogo/sogo.log;
+}

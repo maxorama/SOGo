@@ -1,0 +1,16 @@
+---
+### Installing and configuring firewallD
+- name: Install libselinux-python
+  yum: name=libselinux-python state=present
+
+- name: Install libsemanage-python
+  yum: name=libsemanage-python state=present
+
+- name: Install Firewalld
+  yum: name=firewalld state=present
+
+- name: Firewalld service state
+  service: name=firewalld state=started enabled=yes
+
+- include: rules.yml
+

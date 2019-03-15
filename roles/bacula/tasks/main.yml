@@ -1,0 +1,33 @@
+---
+
+- name: Copying Bacula epel repository...
+  template: src=epel-bacula7.repo.j2 dest=/etc/yum.repos.d/epel-bacula7.repo force=yes
+  ignore_errors: false
+
+- name: Installing Bacula client...
+  yum: name={{ item }} state=present
+  with_items:
+   - bacula-libs
+   - bacula-common
+   - bacula-client
+
+- name: Copying Bacula config...
+  template: src=bacula-fd.conf.j2 dest=/etc/bacula/bacula-fd.conf force=yes
+  ignore_errors: false
+
+- name: Ensure bacula-fd is started and enabled at boot
+  service:
+    name: bacula-fd
+    state: started
+    enabled: yes
+  notify: restart bacula
+
+- name: Opening Bacula client ports...
+  firewalld:
+   service: bacula-client
+   zone: public
+   permanent: true
+   state: enabled
+   immediate: yes
+  ignore_errors: true
+

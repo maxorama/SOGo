@@ -1,0 +1,48 @@
+---
+
+http_ssl_conf: "
+  <IfModule mod_headers.c> \n
+    Header always edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure \n
+    Header always set Strict-Transport-Security \"max-age=63072000; includeSubDomains; preload\" \n
+  </IfModule> \n
+
+  Header set X-XSS-Protection \"1; mode=block\" \n
+
+  Header set X-Content-Type-Options nosniff \n
+
+  Header always append X-Frame-Options DENY \n
+
+  <IfModule mod_deflate.c> \n
+    AddOutputFilterByType DEFLATE application/javascript \n
+    AddOutputFilterByType DEFLATE application/rss+xml \n
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject \n
+    AddOutputFilterByType DEFLATE application/x-font \n
+    AddOutputFilterByType DEFLATE application/x-font-opentype \n
+    AddOutputFilterByType DEFLATE application/x-font-otf \n
+    AddOutputFilterByType DEFLATE application/x-font-truetype \n
+    AddOutputFilterByType DEFLATE application/x-font-ttf \n
+    AddOutputFilterByType DEFLATE application/x-javascript \n
+    AddOutputFilterByType DEFLATE application/xhtml+xml \n
+    AddOutputFilterByType DEFLATE application/xml \n
+    AddOutputFilterByType DEFLATE font/opentype \n
+    AddOutputFilterByType DEFLATE font/otf \n
+    AddOutputFilterByType DEFLATE font/ttf \n
+    AddOutputFilterByType DEFLATE image/svg+xml \n
+    AddOutputFilterByType DEFLATE image/x-icon \n
+    AddOutputFilterByType DEFLATE text/css \n
+    AddOutputFilterByType DEFLATE text/html \n
+    AddOutputFilterByType DEFLATE text/javascript \n
+    AddOutputFilterByType DEFLATE text/plain \n
+    AddOutputFilterByType DEFLATE text/xml \n
+
+    BrowserMatch ^Mozilla/4 gzip-only-text/html \n
+    BrowserMatch ^Mozilla/4\\.0[678] no-gzip \n
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html \n
+    Header append Vary User-Agent \n
+  </IfModule> \n
+
+  Header set Cache-Control \"max-age=2628000, public\" \n
+
+  RedirectMatch ^/$ \"https://{{ mail_web_srv }}/SOGo/\"
+"
+

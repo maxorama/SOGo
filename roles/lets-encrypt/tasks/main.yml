@@ -1,0 +1,32 @@
+---
+
+- name: Installing Lets Encrypt certbot...
+  yum: name="{{ item }}" state=present
+  with_items:
+   - certbot
+   - python2-certbot
+   - python2-certbot-apache
+  register: result
+  ignore_errors: False
+
+- name: Creating cerbots directories...
+  file:
+   path: /var/www/html/{{ item }}
+   state: directory
+   mode: 0775
+  with_items:
+   - ".well-known"
+   - ".well-known/acme-challenge"
+
+- name: Generating SSL Certificate...
+  command: certbot --agree-tos --apache -d {{ mail_web_srv }} -m admin@{{ domain.global }}
+  register: output
+  ignore_errors: True
+
+- name: Setting up Lets Encrypt crontab...
+  cron:
+   name: Update Lets Encrypt...
+   minute: '0'
+   hour: '0,12'
+   job: "python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew"
+
