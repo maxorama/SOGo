@@ -1,11 +1,11 @@
 ---
 
-- name: Creating SOGo group...
+- name: Creating SOGo group
   group:
     name: sogo
     state: present
 
-- name: Create SOGo user...
+- name: Create SOGo user
   user:
    name: sogo
    groups:
@@ -15,9 +15,24 @@
    createhome: yes
    home: /var/lib/sogo
 
-- include: copy_sogo_src.yml
 - include: install_sogo_deps.yml
-- include: install_libwbxml.yml
+- include: copy_sogo_src.yml
 - include: compile_sogo.yml
 - include: copy_sogo_configs.yml
+
+- name: Opening SOGo port
+  firewalld:
+   port: 20000/tcp
+   zone: public
+   permanent: true
+   state: enabled
+   immediate: yes
+  ignore_errors: true
+
+- name: Ensure SOGo is started and enabled at boot
+  service:
+    name: sogod
+    state: started
+    enabled: yes
+  notify: restart sogod
 

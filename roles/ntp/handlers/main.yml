@@ -3,5 +3,5 @@
 # See http://docs.ansible.com/playbooks_intro.html for more information about handlers.
 
 - name: restart chrony
-  service: name=chrony state=restarted
+  service: name=chronyd state=restarted
 

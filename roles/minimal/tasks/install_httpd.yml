@@ -1,18 +1,12 @@
 ---
 
-- name: Installing Apache...
-  yum: name=httpd state=present
+- name: Installing Apache
+  dnf: 
+   name: ['httpd','mod_ssl','mod_fcgid']
+   state: present
   ignore_errors: False
 
-- name: Installing Apache SSL...
-  yum: name=mod_ssl state=present
-  ignore_errors: False
-
-- name: Installing Apache fcgid...
-  yum: name=mod_fcgid state=present
-  ignore_errors: False
-
-- name: Coping HTTP configuration files...
+- name: Coping HTTP configuration files
   template: src={{ item }} dest=/etc/httpd/conf.d/{{ item | basename | regex_replace('\.j2','') }} force=yes
   with_items:
    - http.conf.j2
@@ -29,4 +23,26 @@
    path: /etc/httpd/conf/httpd.conf
    regexp: "AllowOverride None"
    replace: "AllowOverride All"
+
+- name: Enable service Apache2
+  service: name=httpd state=started enabled=yes
+  notify: restart apache
+
+- name: Opening HTTP firewall port
+  firewalld:
+   service: http
+   zone: public
+   permanent: true
+   state: enabled
+   immediate: yes
+  ignore_errors: true
+
+- name: Opening HTTPs firewall port
+  firewalld:
+   service: https
+   zone: public
+   permanent: true
+   state: enabled
+   immediate: yes
+  ignore_errors: true
 

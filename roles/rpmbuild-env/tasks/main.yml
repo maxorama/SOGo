@@ -4,13 +4,13 @@
   assert:
     that: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7")
 
-- name: Install rpm-build package
+- name: Installing rpm-build package
   package:
     name: "{{ rpmbuild_pkg }}"
   tags:
     - rpmbuild_pkg
 
-- name: Create the RPM macros file
+- name: Creating the RPM macros file
   template:
     src: rpmmacros.j2
     dest: "{{ rpmbuild_user_home }}/.rpmmacros"
@@ -18,7 +18,7 @@
     - rpmbuild_config
     - rpmbuild_macros
 
-- name: Create directory structure
+- name: Creating directory structure
   file:
     path: "{{ item }}"
     state: directory

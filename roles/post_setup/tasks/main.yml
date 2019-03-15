@@ -1,26 +1,5 @@
 ---
 
-- name: Coping Host file...
+- name: Coping Host file
   template: src=hosts.j2 dest=/etc/hosts force=yes
-
-- name: Ensure Apache2 is started and enabled at boot
-  service:
-    name: httpd
-    state: started
-    enabled: yes
-
-- name: Ensure SOGo is started and enabled at boot
-  service:
-    name: sogod
-    state: started
-    enabled: yes
-  notify: 
-   - restart sogod
-
-- name: Regexp SOGO.conf HTTP file...
-  lineinfile:
-    dest: /etc/httpd/conf.d/SOGo.conf
-    line: "  RewriteRule /SOGo(.*) https://%{HTTP_HOST}%{REQUEST_URI}"
-    insertafter: '.well-known\/carddav'
-    state: present
 

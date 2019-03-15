@@ -5,21 +5,15 @@
 
 # Download and install EPEL for Centos/RHEL version 7
 - name: Download EPEL Repo - Centos/RHEL 7
-  yum: name=epel-release state=present
+  dnf: name=epel-release state=present
 
 - name: Upgrade all packages
-  yum: name=* state=latest
+  dnf: name=* state=latest
 
 - name: Installing minimal soft
-  yum: name="{{ item }}" state=present
-  with_items:
-   - bash-completion
-   - mc
-   - vim
-   - net-tools
-   - bzip2
-   - unzip
-   - zip
+  dnf:
+   name: ['bash-completion', 'mc', 'vim', 'net-tools', 'bzip2', 'zip', 'p7zip', 'p7zip-plugins', 'unzip']
+   state: present
   register: result
   ignore_errors: False
 

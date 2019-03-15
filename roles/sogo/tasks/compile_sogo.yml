@@ -1,6 +1,6 @@
 ---
 
-- name: Building SOPe SRPMs...
+- name: Building SOPe SRPMs
   command: rpmbuild -bb SPECS/sope.spec
   args:
    chdir: "{{ rpmbuild_build_dir }}"
@@ -13,7 +13,7 @@
 
 ### - debug: var=find_results
 
-- name: Removing SOPe debug sumbols...
+- name: Removing SOPe debug sumbols
   file:
    path: "{{ item.path }}"
    state: absent
@@ -27,13 +27,13 @@
 
 ### - debug: var=sope_results
 
-- name: Installing SOPe libraries...
+- name: Installing SOPe libraries
   command: rpm -ivh {{ item.path }}
   with_items:
    "{{ sope_results.files }}"
   ignore_errors: true
 
-- name: Building SOGo SRPMs...
+- name: Building SOGo SRPMs
   command: rpmbuild -bb SPECS/sogo.spec
   args:
    chdir: "{{ rpmbuild_build_dir }}"
@@ -44,7 +44,7 @@
    pattern: "*debug*"
   register: find_results
 
-- name: Removing SOGo debug sumbols...
+- name: Removing SOGo debug sumbols
   file:
    path: "{{ item.path }}"
    state: absent
@@ -56,7 +56,7 @@
    pattern: "sope49-cards*.rpm"
   register: sogo_results
 
-- name: Installing SOGo Deps libraries...
+- name: Installing SOGo Deps libraries
   command: rpm -ivh {{ item.path }}
   with_items:
    "{{ sogo_results.files }}"
@@ -67,7 +67,7 @@
    pattern: "sope49-gdl1-contentstore*.rpm"
   register: sogo_results
 
-- name: Installing SOGo Deps libraries...
+- name: Installing SOGo Deps libraries
   command: rpm -ivh {{ item.path }}
   with_items:
    "{{ sogo_results.files }}"
@@ -78,7 +78,7 @@
    pattern: "sogo-*.rpm"
   register: sogo_results
 
-- name: Installing SOGo libraries...
+- name: Installing SOGo libraries
   command: rpm -ivh {{ item.path }}
   with_items:
    "{{ sogo_results.files }}"

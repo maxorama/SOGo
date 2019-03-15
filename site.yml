@@ -24,7 +24,7 @@
    - include_role: name=minimal
    - include_role: name=reboot
 
-- name: Compile SOGo groupware...
+- name: Compile SOGo groupware
   hosts: all
   remote_user: root
   tags: sogo_setup
@@ -34,6 +34,15 @@
    - rpmbuild-env
    - sogo
 
+- name: Deploy Bacula backup client
+  hosts: all
+  remote_user: root
+  tags: bacula
+  gather_facts: no
+
+  roles:
+   - bacula
+
 - name: Post configuration
   hosts: all
   remote_user: root
@@ -41,7 +50,6 @@
   gather_facts: no
 
   roles:
-   - bacula
    - post_setup
 #   - lets-encrypt
    - reboot
