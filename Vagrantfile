@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
     ovirt.insecure = true
     ovirt.debug = true
     ovirt.cluster = '<<Cluster>>'
-    ovirt.template = 'CentOS_7.4_Tmpl_Vagrant'
+    ovirt.template = 'CentOS_7.6_Tmpl_Vagrant'
     ovirt.console = 'vnc'
     ovirt.memory_size = '8 GiB' #see https://github.com/dominikh/filesize for usage
     ovirt.memory_guaranteed = '8192 MB' #see https://github.com/dominikh/filesize for usage
