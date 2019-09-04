@@ -1,6 +1,6 @@
 %define apache_modules_dir %{_usr}/lib/httpd/modules
 %define apache_conf_dir    %{_sysconfdir}/httpd/conf.d
-%define oracle_support     1
+%define oracle_support     0
 %{?el7:%define oracle_support 0}
 
 Summary:      SOPE

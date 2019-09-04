@@ -52,6 +52,6 @@
   roles:
    - remove_tmp
    - post_setup
-#   - lets-encrypt
+   - lets-encrypt
    - reboot
 

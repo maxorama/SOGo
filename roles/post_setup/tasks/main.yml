@@ -3,3 +3,5 @@
 - name: Coping Host file
   template: src=hosts.j2 dest=/etc/hosts force=yes
 
+- include: copy_configs.yml
+

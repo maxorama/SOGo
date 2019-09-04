@@ -1,11 +1,9 @@
 ---
 
 - name: Installing Lets Encrypt certbot...
-  yum: name="{{ item }}" state=present
-  with_items:
-   - certbot
-   - python2-certbot
-   - python2-certbot-apache
+  dnf:
+   name: ['certbot', 'python2-certbot', 'python2-certbot-apache']
+   state: present
   register: result
   ignore_errors: False
 
@@ -19,9 +17,9 @@
    - ".well-known/acme-challenge"
 
 - name: Generating SSL Certificate...
-  command: certbot --agree-tos --apache -d {{ mail_web_srv }} -m admin@{{ domain.global }}
+  command: certbot certonly --agree-tos --apache -d {{ mail_web_srv }} -m admin@{{ domain.global }} --non-interactive
   register: output
-  ignore_errors: True
+  ignore_errors: False
 
 - name: Setting up Lets Encrypt crontab...
   cron:
@@ -29,4 +27,22 @@
    minute: '0'
    hour: '0,12'
    job: "python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew"
+
+- name: Regexp SSL Certificate...
+  replace:
+   path: /etc/httpd/conf.d/ssl.conf
+   regexp: '^(SSLCertificateFile)(\s+.*)?'
+   replace: '\1 /etc/letsencrypt/live/mails.domain.ru/cert.pem'
+
+- name: Regexp SSL Certificate key...
+  replace:
+   path: /etc/httpd/conf.d/ssl.conf
+   regexp: '^(SSLCertificateKeyFile)(\s+.*)?'
+   replace: '\1 /etc/letsencrypt/live/mails.domain.ru/privkey.pem'
+
+- name: Regexp SSL Certificate chain...
+  replace:
+   path: /etc/httpd/conf.d/ssl.conf
+   regexp: '^#(SSLCertificateChainFile)(\s+.*)?'
+   replace: '\1 /etc/letsencrypt/live/mails.domain.ru/chain.pem'
 

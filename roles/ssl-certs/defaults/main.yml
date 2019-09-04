@@ -2,7 +2,7 @@
 
 ssl_certs_country: "RU"
 ssl_certs_locality: "Moscow"
-ssl_certs_organization: "JSC Scan"
+ssl_certs_organization: "JSC Company"
 ssl_certs_state: "Moscow"
 ssl_certs_common_name: "{{ mailserver }}"
 ssl_certs_days: "365"
