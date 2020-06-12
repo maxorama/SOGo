@@ -5,18 +5,6 @@ domain: { global: "domain.ru", local: "domain.local" }
 httpd_port: 80
 ntpserver: 192.168.10.1
 allow_network: 192.168.10.0/24
-host_ip: 192.168.10.102
+host_ip: 192.168.10.101
 hostname: sogo
 
-sogo_ver: 4.0.8
-sogo_title: "Domain"
-mail_srv: mails.domain.ru
-mail_web_srv: mails.domain.ru
-imap_srv: "imaps://{{ mail_srv }}:993/?ssl=yes"
-sieve_srv: "sieve://{{ mail_srv }}:4190/?tls=yes"
-
-base_dc: dc.domain.local
-base_url: dc=domain,dc=local
-base_dn: ou=Group,dc=domain,dc=local
-bind_dn: cn=admin,cn=Users,dc=domain,dc=local
-bind_pass: << password >>

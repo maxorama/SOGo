@@ -1,7 +1,8 @@
 ---
 
+- name: Removing old package Sendmail
+  yum: name=sendmail state=absent
+
 - name: Coping Host file
   template: src=hosts.j2 dest=/etc/hosts force=yes
-
-- include: copy_configs.yml
 

@@ -42,6 +42,7 @@
 
 - name: Create Root DB User
   mysql_user: name={{ dbuser }} password={{ upassword }} priv=*.*:ALL host='%' state=present
+  no_log: true
   ignore_errors: true
 
 - name: Creating SOGo Application Database
@@ -50,6 +51,7 @@
 
 - name: Creating SOGo Application DB User...
   mysql_user: name={{ sogo_user }} password={{ sogo_pass }} priv='{{ sogo_db }}.*:ALL,GRANT' host='localhost' state=present
+  no_log: true
   ignore_errors: true
 
 - name: Remove the test database...

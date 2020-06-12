@@ -21,8 +21,8 @@
 - name: Regexp HTTP config...
   replace:
    path: /etc/httpd/conf/httpd.conf
-   regexp: "AllowOverride None"
-   replace: "AllowOverride All"
+   regexp: '(AllowOverride)(\s.*)?'
+   replace: '\1 All'
 
 - name: Enable service Apache2
   service: name=httpd state=started enabled=yes
