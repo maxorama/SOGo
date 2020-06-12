@@ -3,7 +3,7 @@
 - name: Ansible delete file glob
   find:
    paths: /tmp/
-   patterns: 'libwbxml*'
+   patterns: 'libwbxml*,vagrant*'
    recurse: True
   register: files_to_delete
 
