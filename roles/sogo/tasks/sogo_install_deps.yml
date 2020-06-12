@@ -1,0 +1,27 @@
+---
+
+- name: Installing SOGo dependencies...
+  dnf: 
+   name: ['perl-Thread-Queue', 'perl-srpm-macros', 'gnustep-filesystem', 'gnustep-make', 'gnustep-base', 'gnustep-base-devel', 'xz-devel', 'libxml2-devel', 'openldap-devel', 'libstdc++-devel', 'libobjc', 'gcc-objc', 'gcc-c++', 'gcc-objc++', 'postgresql', 'postgresql-devel', 'postgresql-libs', 'lasso-devel', 'memcached', 'libmemcached', 'libmemcached-devel', 'libcurl-devel', 'expat-devel']
+   state: present
+  register: result
+  ignore_errors: true
+
+- name: Copying libwbxml libraries
+  copy:
+   src: roles/sogo/templates/rpm/{{ item }}
+   dest: /tmp/{{ item }}
+   mode: 0644
+  with_items:
+   - libwbxml-0.11.6-1.el7.centos.x86_64.rpm
+   - libwbxml-devel-0.11.6-1.el7.centos.x86_64.rpm
+  register: result
+  ignore_errors: true
+
+- name: Installing libwbxml libraries
+  command: rpm -ivh /tmp/{{ item }}
+  with_items:
+   - libwbxml-0.11.6-1.el7.centos.x86_64.rpm
+   - libwbxml-devel-0.11.6-1.el7.centos.x86_64.rpm
+  ignore_errors: true
+

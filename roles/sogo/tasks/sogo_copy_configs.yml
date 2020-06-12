@@ -1,0 +1,17 @@
+---
+
+- name: Coping SOGo configuration files
+  template: src={{ item }} dest=/etc/sogo/{{ item | basename | regex_replace('\.j2','') }} force=yes
+  with_items:
+   - sogo/sieve.creds.j2
+   - sogo/sogo.conf.j2
+
+- name: Fixing SOGo permissions
+  file:
+   path: /etc/sogo/{{ item }}
+   group: sogo
+   mode: "u=rw,g=r,o="
+  with_items:
+   - sieve.creds
+   - sogo.conf
+

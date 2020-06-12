@@ -1,0 +1,86 @@
+---
+
+- name: Building SOPe SRPMs
+  command: rpmbuild -bb SPECS/sope.spec
+  args:
+   chdir: "{{ rpmbuild_build_dir }}"
+  register: output
+
+- find: 
+   paths: "{{ rpmbuild_build_dir }}/RPMS/{{ ansible_userspace_architecture }}"
+   pattern: "*debug*"
+  register: find_results
+
+### - debug: var=find_results
+
+- name: Removing SOPe debug sumbols
+  file:
+   path: "{{ item.path }}"
+   state: absent
+  with_items:
+   "{{ find_results.files }}"
+
+- find:
+   path: "{{ rpmbuild_build_dir }}/RPMS/{{ ansible_userspace_architecture }}"
+   pattern: "sope49-*.rpm"
+  register: sope_results
+
+### - debug: var=sope_results
+
+- name: Installing SOPe libraries
+  command: rpm -ivh {{ item.path }}
+  with_items:
+   "{{ sope_results.files }}"
+  ignore_errors: true
+
+- name: Building SOGo SRPMs
+  command: rpmbuild -bb SPECS/sogo.spec
+  args:
+   chdir: "{{ rpmbuild_build_dir }}"
+  register: output
+
+- find:
+   paths: "{{ rpmbuild_build_dir }}/RPMS/{{ ansible_userspace_architecture }}"
+   pattern: "*debug*"
+  register: find_results
+
+- name: Removing SOGo debug sumbols
+  file:
+   path: "{{ item.path }}"
+   state: absent
+  with_items:
+   "{{ find_results.files }}"
+
+- find:
+   path: "{{ rpmbuild_build_dir }}/RPMS/{{ ansible_userspace_architecture }}"
+   pattern: "sope49-cards*.rpm"
+  register: sogo_results
+
+- name: Installing SOGo Deps libraries
+  command: rpm -ivh {{ item.path }}
+  with_items:
+   "{{ sogo_results.files }}"
+  ignore_errors: true
+
+- find:
+   path: "{{ rpmbuild_build_dir }}/RPMS/{{ ansible_userspace_architecture }}"
+   pattern: "sope49-gdl1-contentstore*.rpm"
+  register: sogo_results
+
+- name: Installing SOGo Deps libraries
+  command: rpm -ivh {{ item.path }}
+  with_items:
+   "{{ sogo_results.files }}"
+  ignore_errors: true
+
+- find:
+   path: "{{ rpmbuild_build_dir }}/RPMS/{{ ansible_userspace_architecture }}"
+   pattern: "sogo-*.rpm"
+  register: sogo_results
+
+- name: Installing SOGo libraries
+  command: rpm -ivh {{ item.path }}
+  with_items:
+   "{{ sogo_results.files }}"
+  ignore_errors: true
+

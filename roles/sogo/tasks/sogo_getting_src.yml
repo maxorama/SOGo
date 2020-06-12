@@ -1,0 +1,24 @@
+---
+
+- name: Getting SOPe source file
+  get_url: url=https://packages.inverse.ca/SOGo/sources/SOPE-{{ sogo_ver }}.tar.gz dest=/root/rpmbuild/SOURCES/SOPE-{{ sogo_ver }}.tar.gz mode=0644
+  register: result
+  ignore_errors: false
+
+- name: Copying SOGo configuration file
+  copy:
+    src: roles/sogo/templates/src/sogo.spec
+    dest: /root/rpmbuild/SPECS/sogo.spec
+    mode: 0644
+
+- name: Copying SOPe configuration file
+  copy:
+    src: roles/sogo/templates/src/sope.spec
+    dest: /root/rpmbuild/SPECS/sope.spec
+    mode: 0644
+
+- name: Getting SOGo source file
+  get_url: url=https://packages.inverse.ca/SOGo/sources/SOGo-{{ sogo_ver }}.tar.gz dest=/root/rpmbuild/SOURCES/SOGo-{{ sogo_ver }}.tar.gz mode=0644
+  register: result
+  ignore_errors: false
+

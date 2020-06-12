@@ -1,0 +1,17 @@
+---
+
+- name: Creating SOGo group
+  group:
+    name: sogo
+    state: present
+
+- name: Create SOGo user
+  user:
+   name: sogo
+   groups:
+    - sogo
+   state: present
+   shell: /sbin/nologin
+   createhome: yes
+   home: /var/lib/sogo
+

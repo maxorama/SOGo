@@ -1,0 +1,18 @@
+---
+
+- name: Opening SOGo port
+  firewalld:
+   port: 20000/tcp
+   zone: public
+   permanent: true
+   state: enabled
+   immediate: yes
+  ignore_errors: true
+
+- name: Ensure SOGo is started and enabled at boot
+  service:
+    name: sogod
+    state: started
+    enabled: yes
+  notify: restart sogod
+
