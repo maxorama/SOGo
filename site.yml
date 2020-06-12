@@ -32,7 +32,7 @@
 
   roles:
    - rpmbuild-env
-#   - sogo
+   - sogo
 
 - name: Deploy Bacula backup client
   hosts: all

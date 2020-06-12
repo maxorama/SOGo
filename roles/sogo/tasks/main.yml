@@ -1,38 +1,9 @@
 ---
 
-- name: Creating SOGo group
-  group:
-    name: sogo
-    state: present
-
-- name: Create SOGo user
-  user:
-   name: sogo
-   groups:
-    - sogo
-   state: present
-   shell: /sbin/nologin
-   createhome: yes
-   home: /var/lib/sogo
-
-- include: install_sogo_deps.yml
-- include: copy_sogo_src.yml
-- include: compile_sogo.yml
-- include: copy_sogo_configs.yml
-
-- name: Opening SOGo port
-  firewalld:
-   port: 20000/tcp
-   zone: public
-   permanent: true
-   state: enabled
-   immediate: yes
-  ignore_errors: true
-
-- name: Ensure SOGo is started and enabled at boot
-  service:
-    name: sogod
-    state: started
-    enabled: yes
-  notify: restart sogod
+- include: sogo_create_user.yml
+- include: sogo_install_deps.yml
+- include: sogo_getting_src.yml
+- include: sogo_compile_src.yml
+- include: sogo_copy_configs.yml
+- include: sogo_firewall_rules.yml
 
