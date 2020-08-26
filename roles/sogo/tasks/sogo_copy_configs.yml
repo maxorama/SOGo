@@ -15,3 +15,8 @@
    - sieve.creds
    - sogo.conf
 
+- name: Copying SOGo image files
+  copy: src={{ item }} dest=/usr/lib64/GNUstep/SOGo/WebServerResources/img/{{ item }} force=yes
+  with_items:
+   - sogo-full.svg
+   - sogo.ico

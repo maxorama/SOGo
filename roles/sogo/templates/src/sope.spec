@@ -2,6 +2,7 @@
 %define apache_conf_dir    %{_sysconfdir}/httpd/conf.d
 %define oracle_support     0
 %{?el7:%define oracle_support 0}
+%{?el8:%define oracle_support 0}
 
 Summary:      SOPE
 Name:         sope%{sope_major_version}%{sope_minor_version}
@@ -20,6 +21,7 @@ BuildRoot:    %{_tmppath}/%{name}-%{version}-%{release}-root
 %{?el5:BuildRequires: mysql-devel}
 %{?el6:BuildRequires: mysql-devel}
 %{?el7:BuildRequires: mariadb-devel}
+%{?el8:BuildRequires: mariadb-devel}
 
 %description
 sope
@@ -446,7 +448,7 @@ rm -fr ${RPM_BUILD_ROOT}
 %{_libdir}/libNGObjWeb*.so
 %{_libdir}/libWEExtensions*.so
 %{_libdir}/libWOExtensions*.so
-%if 0%{?el7}
+%if 0%{?rhel} >= 7
 %{_libdir}/GNUstep/Makefiles
 %else
 %{_datadir}/GNUstep/Makefiles

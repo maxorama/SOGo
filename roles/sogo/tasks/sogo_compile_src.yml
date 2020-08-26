@@ -28,7 +28,7 @@
 ### - debug: var=sope_results
 
 - name: Installing SOPe libraries
-  command: rpm -ivh {{ item.path }}
+  command: yum install -y {{ item.path }}
   with_items:
    "{{ sope_results.files }}"
   ignore_errors: true
@@ -57,7 +57,7 @@
   register: sogo_results
 
 - name: Installing SOGo Deps libraries
-  command: rpm -ivh {{ item.path }}
+  command: yum install -y {{ item.path }}
   with_items:
    "{{ sogo_results.files }}"
   ignore_errors: true
@@ -68,7 +68,7 @@
   register: sogo_results
 
 - name: Installing SOGo Deps libraries
-  command: rpm -ivh {{ item.path }}
+  command: yum install -y {{ item.path }}
   with_items:
    "{{ sogo_results.files }}"
   ignore_errors: true
@@ -79,7 +79,7 @@
   register: sogo_results
 
 - name: Installing SOGo libraries
-  command: rpm -ivh {{ item.path }}
+  command: yum install -y {{ item.path }}
   with_items:
    "{{ sogo_results.files }}"
   ignore_errors: true

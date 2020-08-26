@@ -1,7 +1,7 @@
 ---
 
 - name: Installing SOGo dependencies...
-  dnf: 
+  dnf:
    name: ['perl-Thread-Queue', 'perl-srpm-macros', 'gnustep-filesystem', 'gnustep-make', 'gnustep-base', 'gnustep-base-devel', 'xz-devel', 'libxml2-devel', 'openldap-devel', 'libstdc++-devel', 'libobjc', 'gcc-objc', 'gcc-c++', 'gcc-objc++', 'postgresql', 'postgresql-devel', 'postgresql-libs', 'lasso-devel', 'memcached', 'libmemcached', 'libmemcached-devel', 'libcurl-devel', 'expat-devel']
    state: present
   register: result
