@@ -1,4 +1,4 @@
 ---
 
 - name: restart sogod
-  service: name=sogo state=restarted
+  service: name=sogod state=restarted
