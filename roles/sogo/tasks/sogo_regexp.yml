@@ -36,3 +36,9 @@
    regexp: 'rgb\(225\,245\,243\)'
    replace: '#d8efff;'
 
+- name: Regexp theme pallete
+  replace:
+   path: /usr/lib64/GNUstep/SOGo/WebServerResources/css/theme-default.css
+   regexp: 'rgb\(0\,200\,83\)'
+   replace: '#d8efff;'
+
