@@ -6,4 +6,5 @@
 - include: sogo_compile_src.yml
 - include: sogo_copy_configs.yml
 - include: sogo_firewall_rules.yml
+- include: sogo_regexp.yml
 

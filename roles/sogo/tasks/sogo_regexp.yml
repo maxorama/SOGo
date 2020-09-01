@@ -1,0 +1,38 @@
+---
+
+- name: Regexp theme pallete
+  replace:
+   path: /usr/lib64/GNUstep/SOGo/WebServerResources/js/Common.js
+   regexp: '300\:\"\w*\"'
+   replace: '300:"0070c0"'
+
+- name: Regexp theme pallete
+  replace:
+   path: /usr/lib64/GNUstep/SOGo/WebServerResources/js/Common.js
+   regexp: '500\:\"\w*\"'
+   replace: '500:"0070c0"'
+
+- name: Regexp theme pallete
+  replace:
+   path: /usr/lib64/GNUstep/SOGo/WebServerResources/css/theme-default.css
+   regexp: 'rgb\(99\,153\,151\)'
+   replace: '#0070c0;'
+
+- name: Regexp theme pallete
+  replace:
+   path: /usr/lib64/GNUstep/SOGo/WebServerResources/css/theme-default.css
+   regexp: 'rgb\(77\,128\,128\)'
+   replace: '#0070c0;'
+
+- name: Regexp theme pallete
+  replace:
+   path: /usr/lib64/GNUstep/SOGo/WebServerResources/css/theme-default.css
+   regexp: 'rgb\(206\,235\,232\)'
+   replace: '#d8efff;'
+
+- name: Regexp theme pallete
+  replace:
+   path: /usr/lib64/GNUstep/SOGo/WebServerResources/css/theme-default.css
+   regexp: 'rgb\(225\,245\,243\)'
+   replace: '#d8efff;'
+
