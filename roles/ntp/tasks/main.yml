@@ -5,6 +5,10 @@
   dnf: name=chrony state=present
   tags: chrony
 
+- name: Setting RTC in localtime zone
+  command: timedatectl set-local-rtc 1
+  ignore_errors: false
+
 - name: Configure ntp file
   template: src=chrony.conf.j2 dest=/etc/chrony.conf
   tags: chrony
