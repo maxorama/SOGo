@@ -10,5 +10,6 @@ sieve_srv: "sieve://{{ mail_srv }}:4190/?tls=yes"
 
 base_dc: dc.domain.local
 base_url: dc=domain,dc=local
+base_dn: ou=Group,dc=domain,dc=local
 bind_dn: cn=admin,cn=Users,dc=domain,dc=local
 bind_pass: << password >>
